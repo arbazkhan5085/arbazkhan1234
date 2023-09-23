@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Form</title>
+    <style>
+        *{
+            margin: 0;
+        }
+        body{
+            width: 100%;
+            height: 100vh;
+            background: #26263b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        form{
+            width: 200px;
+            height: auto;
+            padding: 40px;
+            border-radius: 10px;
+            background: #ccc;
+        }
+        form h3{
+            margin: 0;
+            padding: 0px;
+            font-size: 20px;
+
+        }
+         form button{
+            width: 150px;
+            padding: 7px;
+            font-size: 16px;
+            font-family: sans-serif;
+            font-weight: 600;
+            border: none;
+            border-radius: 3px;
+            background-color: rgba(250,100,0,0.8);
+            color:#fff;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <form name="submit-to-google-sheet">
+        <h3>Register Here</h3><br>
+        <label>Name :</label><br>
+        <input type="text" name="name" required ><br><br>
+        <label>Email :</label><br>
+        <input type="email" name="email" required><br><br>
+        <label>Password :</label><br>
+        <input type="text" name="password" required><br><br>
+        <label>Message :</label><br>
+        <textarea name="message" cols="20" required>
+        </textarea>
+        <br><br>
+        <button>Submit</button>
+
+        <span id="success"></span>
+    </form>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzqUYQ8N5uvOCCzCtLwfsyCSRs3XHg-FzhteOKT49wj3nTqUa87owXLIRlujKbi4KL57g/exec'
+        const form = document.forms['submit-to-google-sheet']
+        const success = document.getElementById('success')
+        form.addEventListener('submit', e => {
+            e.preventDefault()
+            fetch(scriptURL, { method: 'POST',body: new FormData(form)})
+            .then(response => {
+                success.innerHTML="data successfully submit";
+                setTimeout(function()
+                {
+                    success.innerHTML=""
+                },5000)
+                form.reset
+            })
+            .catch(error => console.error('Error!', error.message))
+        })
+    </script>
+</body>
+</html>
